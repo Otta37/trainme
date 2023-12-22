@@ -7,7 +7,7 @@ function MainMenu() {
     ];
 
     return (
-        <TabMenu model={items} />
+        <TabMenu model={items} className="gay" />
     )
 }
 
