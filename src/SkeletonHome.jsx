@@ -14,9 +14,9 @@ function SkeletonHome({body}) {
         <>
             <div className="flex flex-column" style={{maxHeight: "100dvh", height: "100dvh"}}>
                 <MainMenu /> 
-                <div className="p-4 flex flex-1 flex-column gap-2 justify-content-between overflow-y-auto">
-                    <div className="flex-1 overflow-y-auto">
-                        <div className="max-h-full" style={{overflow: "auto"}}>
+                <div className="p-4 flex flex-1 flex-column gap-2 justify-content-between overflow-y-hidden">
+                    <div className="flex-1 overflow-y-hidden">
+                        <div className="h-full overflow-y-auto">
                             {body}
                         </div>
                     </div>

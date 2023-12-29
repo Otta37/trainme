@@ -9,6 +9,7 @@ import { Divider } from 'primereact/divider';
 import { FitnessCenter } from '@mui/icons-material';
 import { UtenteContext } from './stores/UtenteContext';
 import { Message } from 'primereact/message';
+import setAuthToken from './functions/setAuthToken';
 
 function Login() {
     const refUsername = useRef();
@@ -20,8 +21,6 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        // * Post a server per autenticazione
 
         let obj_cred = {
             username: refUsername.current.value,
@@ -33,6 +32,8 @@ function Login() {
         axios.post("http://192.168.1.27:3000/login", obj_cred)
         .then((res) => {
             setLoading(false);
+            setAuthToken(res.data);
+            localStorage.setItem("jwt", res.data);
             setAuth(res.data);
         })
         .catch((e) => {

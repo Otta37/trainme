@@ -152,6 +152,10 @@ function Schede() {
         },
     ]);
 
+    const onRowSelect = (e) => {
+        console.log(e.data);
+    }
+
 
     // setLoading(true);
     // axios.get("http://192.168.1.27:3000/schede/utente")
@@ -182,13 +186,16 @@ function Schede() {
 
             {loading 
                 ? <h1>Caricamento ...</h1>
-                : <DataTable value={schede} className="p-datatable-scrollable" scrollHeight="flex" scrollable resizableColumns stripedRows tableStyle={{ minWidth: '10rem' }}>
+                : <DataTable value={schede} scrollable scrollHeight="flex" stripedRows 
+                        selectionMode={"single"} onRowSelect={onRowSelect} tableStyle={{ minWidth: '10rem' }}>
                     <Column field="data" header="Data"></Column>
                     <Column field="obiettivo" header="Obiettivo"></Column>
                     <Column field="durata" header="Durata (gg)"></Column>
                     <Column field="n-allenamenti" header="# Allenamenti"></Column>
                 </DataTable>
             }
+
+            
         </>
     );
 }
