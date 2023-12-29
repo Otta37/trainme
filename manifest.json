@@ -1,8 +1,8 @@
 {
     "name": "TrainMe",
-    "short_name": "TM",
+    "short_name": "TrainMe",
     "description": "Una breve descrizione dell'applicazione",
-    "start_url": "/index.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",

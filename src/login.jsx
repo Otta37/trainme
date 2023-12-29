@@ -1,25 +1,46 @@
-import { useRef } from 'react';
+import { useRef, useContext, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import axios from "axios";
 import { InputText } from "primereact/inputtext";
 import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card'; 
 import { Divider } from 'primereact/divider';
 import { FitnessCenter } from '@mui/icons-material';
-import { Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { UtenteContext } from './stores/UtenteContext';
+import { Message } from 'primereact/message';
 
 function Login() {
     const refUsername = useRef();
     const refPassword = useRef();
-    const [auth, setAuth] = useState(false);
+    const {auth, setAuth} = useContext(UtenteContext);
 
+    const [loading, setLoading] = useState(false);
+    const [errorLogin, setErrorLogin] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         
         // * Post a server per autenticazione
 
-        setAuth(true);
+        let obj_cred = {
+            username: refUsername.current.value,
+            password: refPassword.current.value
+        }
+
+        setLoading(true);
+
+        axios.post("http://192.168.1.27:3000/login", obj_cred)
+        .then((res) => {
+            setLoading(false);
+            setAuth(res.data);
+        })
+        .catch((e) => {
+            console.error(e);
+            setLoading(false);
+            setErrorLogin(true);
+            setAuth(false);
+        })
     }
     
     if (auth) return <Navigate to="/home" />
@@ -32,6 +53,8 @@ function Login() {
                         <div className="flex flex-column md:flex-row">
                             <form onSubmit={handleSubmit}>
                                 <div className="w-full flex flex-column align-items-center justify-content-center gap-6 py-2">
+                                    
+                                    {errorLogin && <Message severity="error" text="Username o password errati" />}
                                     <div className="p-inputgroup flex-1">
                                         <span className="p-float-label">
                                             <InputText name="username" ref={refUsername} />
@@ -41,11 +64,12 @@ function Login() {
                                     
                                     <div className="p-inputgroup flex-1">
                                         <span className="p-float-label">
-                                        <Password name="password" inputRef={refPassword} toggleMask/>
+                                        <Password name="password" inputRef={refPassword} feedback={false} toggleMask/>
                                             <label htmlFor="password">Password</label>
                                         </span>
                                     </div>
-                                    <Button label="Login" icon={<FitnessCenter />} className="w-10rem mx-auto"></Button>
+                                    <Button label="Login" icon={<FitnessCenter />} className="w-10rem mx-auto" loading={loading} ></Button>
+
                                 </div>
                             </form>  
                             <div className="w-full md:w-2">
