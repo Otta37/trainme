@@ -1,4 +1,4 @@
-import { useRef, useContext, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { InputText } from "primereact/inputtext";
 import { Password } from "primereact/password";
@@ -6,17 +6,20 @@ import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
 import { FitnessCenter } from "@mui/icons-material";
-import { UtenteContext } from "./stores/UtenteContext";
 import { Message } from "primereact/message";
-import setAuthToken from "./functions/setAuthToken";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const refUsername = useRef();
   const refPassword = useRef();
-  const { setAuth } = useContext(UtenteContext);
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [errorLogin, setErrorLogin] = useState(false);
+
+  useEffect(() => {
+    if (localStorage.getItem("jwt")) navigate("/home");
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -32,19 +35,15 @@ function Login() {
       .post("http://192.168.1.27:3000/login", obj_cred)
       .then((res) => {
         setLoading(false);
-        setAuthToken(res.data);
-        localStorage.setItem("jwt", res.data);
-        setAuth(res.data);
+        localStorage.setItem("jwt", res.data.token);
+        navigate("/home");
       })
       .catch((e) => {
         console.error(e);
         setLoading(false);
         setErrorLogin(true);
-        setAuth(false);
       });
   };
-
-  /* if (auth) return <Navigate to="/home" />; */
 
   return (
     <>

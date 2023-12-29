@@ -7,7 +7,14 @@ function AuthChecker({ children }) {
 
   useEffect(() => {
     const checkAuthentication = async () => {
-      axios.get("http://192.168.1.27:3000/is_auth").catch(() => {
+      const token = localStorage.getItem("jwt");
+
+      if (!token) return navigate("/");
+
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+      axios.get("http://192.168.1.27:3000/is_auth").catch((e) => {
+        localStorage.removeItem("jwt");
         navigate("/");
       });
     };
