@@ -4,6 +4,8 @@ import { Button } from "primereact/button";
 import { DataScroller } from "primereact/datascroller";
 import SkeletonSchede from "./components/SkeletonSchede";
 import { UtenteContext } from "./stores/UtenteContext";
+import { formatDataToLocale } from "./functions/function";
+import { Badge } from "primereact/badge";
 
 function Schede() {
   const { setIndex } = useContext(UtenteContext);
@@ -12,42 +14,37 @@ function Schede() {
 
   useEffect(() => {
     setIndex(1);
+
+    setTimeout(() => {
+      axios
+        .get("http://192.168.1.27:3000/schede")
+        .then((res) => setSchede(res.data));
+    }, 2000);
   }, []);
 
-  const onRowSelect = (e) => {
+  /* const onRowSelect = (e) => {
     console.log(e.data);
-  };
+  }; */
 
-  // Fare la richiesta delle schede per l'utente
-
-  // setLoading(true);
-  // axios.get("http://192.168.1.27:3000/schede/utente")
-  //     .then((res) => {
-  //         setLoading(false);
-  //         setSchede(res.data);
-  //     })
-  //     .catch(() => {
-  //         setLoading(false);
-  //         setSchede([
-  //             {
-  //                 "data": "11/12/2023",
-  //                 "obiettivo": "massa",
-  //                 "durata": 35,
-  //                 "n-allenamenti": 3
-  //             },
-  //             {
-  //                 "data": "11/11/2023",
-  //                 "obiettivo": "definizione",
-  //                 "durata": 30,
-  //                 "n-allenamenti": 3
-  //             }
-  //         ])
-  //     })
-
-  const itemTemplate = (data) => {
+  const itemTemplate = (scheda) => {
     return (
       <>
-        <p>data.data</p>
+        <div
+          className="p-3 my-3 border border-1 border-round-xl"
+          style={{ borderColor: "#d4d4d4" }}
+        >
+          <div className="flex justify-content-between align-items-center">
+            <div className="flex flex-column gap-3">
+              <p className="text-md m-0">
+                <strong>Obiettivo</strong>: {scheda.obiettivo.toUpperCase()}
+              </p>
+              <span className="text-sm">{formatDataToLocale(scheda.data)}</span>
+            </div>
+            <div>
+              <Badge value={`${scheda.durata} giorni`} severity="info"></Badge>
+            </div>
+          </div>
+        </div>
       </>
     );
   };
@@ -72,17 +69,9 @@ function Schede() {
           itemTemplate={itemTemplate}
           rows={5}
           loader
-          footer={footer}
+          footer={schede.length > 5 ? footer : null}
         />
       )}
-
-      {/* <DataTable value={schede} scrollable scrollHeight="flex" stripedRows 
-                        selectionMode={"single"} onRowSelect={onRowSelect} tableStyle={{ minWidth: '10rem' }}>
-                    <Column field="data" header="Data"></Column>
-                    <Column field="obiettivo" header="Obiettivo"></Column>
-                    <Column field="durata" header="Durata (gg)"></Column>
-                    <Column field="n-allenamenti" header="# Allenamenti"></Column>
-                </DataTable> */}
     </>
   );
 }

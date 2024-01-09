@@ -1,32 +1,31 @@
 import { useState } from "react";
 import { DataView } from "primereact/dataview";
 import { Skeleton } from "primereact/skeleton";
+import { styled } from "@mui/system";
 
 function SkeletonSchede() {
   const [products, setProducts] = useState(["Ciao"]);
 
+  const BouncingElement = styled("div")({
+    width: "50px",
+    height: "50px",
+    backgroundColor: "blue",
+    animation: "$bounce 1s infinite",
+    "@keyframes bounce": {
+      "0%, 20%, 50%, 80%, 100%": {
+        transform: "translateY(0)",
+      },
+      "40%": {
+        transform: "translateY(-20px)",
+      },
+      "60%": {
+        transform: "translateY(-10px)",
+      },
+    },
+  });
+
   const listItem = () => {
-    return (
-      <div className="col-12">
-        <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-          <Skeleton className="w-9 sm:w-16rem xl:w-10rem shadow-2 h-6rem block xl:block mx-auto border-round" />
-          <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-            <div className="flex flex-column align-items-center sm:align-items-start gap-3">
-              <Skeleton className="w-8rem border-round h-2rem" />
-              <Skeleton className="w-6rem border-round h-1rem" />
-              <div className="flex align-items-center gap-3">
-                <Skeleton className="w-6rem border-round h-1rem" />
-                <Skeleton className="w-3rem border-round h-1rem" />
-              </div>
-            </div>
-            <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-              <Skeleton className="w-4rem border-round h-2rem" />
-              <Skeleton shape="circle" className="w-3rem h-3rem" />
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <BouncingElement />;
   };
 
   return (
