@@ -2,7 +2,7 @@ import { useState, useRef, useContext, useEffect } from "react";
 import axios from "axios";
 import { Button } from "primereact/button";
 import { DataScroller } from "primereact/datascroller";
-import SkeletonSchede from "./components/SkeletonSchede";
+import Loading from "./components/Loading";
 import { UtenteContext } from "./stores/UtenteContext";
 import { formatDataToLocale } from "./functions/function";
 import { Badge } from "primereact/badge";
@@ -61,7 +61,7 @@ function Schede() {
   return (
     <>
       {schede === false ? (
-        <SkeletonSchede />
+        <Loading />
       ) : (
         <DataScroller
           ref={ds}

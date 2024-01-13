@@ -5,7 +5,7 @@ import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { Divider } from "primereact/divider";
-import { FitnessCenter } from "@mui/icons-material";
+import FitnessCenterRoundedIcon from "@mui/icons-material/FitnessCenterRounded";
 import { Message } from "primereact/message";
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +79,7 @@ function Login() {
                   </div>
                   <Button
                     label="Login"
-                    icon={<FitnessCenter />}
+                    icon={<FitnessCenterRoundedIcon />}
                     className="w-10rem mx-auto"
                     loading={loading}
                   ></Button>

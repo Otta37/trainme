@@ -1,0 +1,41 @@
+.icon-loading {
+  z-index: 10;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-loading > svg {
+  transform: rotate(-45deg);
+  font-size: 80px;
+  animation: bounce 2s infinite;
+  color: #373737;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0) rotate(-45deg);
+  }
+
+  35%,
+  45% {
+    transform: translateY(-30px) rotate(-45deg);
+  }
+
+  70% {
+    transform: translateY(15px) rotate(-45deg);
+  }
+
+  /* 80% {
+    transform: translateY(15px) rotate(-225deg);
+  } */
+
+  85% {
+    transform: translateY(15px) rotate(-225deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(-225deg);
+  }
+}
