@@ -1,0 +1,3 @@
+class SchedeService {
+  constructor() {}
+}

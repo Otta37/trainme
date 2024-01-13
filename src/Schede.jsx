@@ -15,11 +15,17 @@ function Schede() {
   useEffect(() => {
     setIndex(1);
 
-    setTimeout(() => {
-      axios
-        .get("http://192.168.1.27:3000/schede")
-        .then((res) => setSchede(res.data));
-    }, 2000);
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    axios
+      .get("http://192.168.1.27:3000/schede", { signal })
+      .then((res) => setSchede(res.data))
+      .catch((err) => {});
+
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   /* const onRowSelect = (e) => {
