@@ -6,6 +6,7 @@ import Loading from "./components/Loading";
 import { UtenteContext } from "./stores/UtenteContext";
 import { formatDataToLocale } from "./functions/function";
 import { Badge } from "primereact/badge";
+import ServiceResource from "./service/ServiceResource";
 
 function Schede() {
   const { setIndex } = useContext(UtenteContext);
@@ -16,11 +17,11 @@ function Schede() {
     setIndex(1);
 
     const controller = new AbortController();
-    const signal = controller.signal;
 
-    axios
-      .get("http://192.168.1.27:3000/schede", { signal })
-      .then((res) => setSchede(res.data))
+    ServiceResource.get_resource("schede", controller)
+      .then((res) => {
+        setSchede(res);
+      })
       .catch((err) => {});
 
     return () => {

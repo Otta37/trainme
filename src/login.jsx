@@ -8,6 +8,7 @@ import { Divider } from "primereact/divider";
 import FitnessCenterRoundedIcon from "@mui/icons-material/FitnessCenterRounded";
 import { Message } from "primereact/message";
 import { useNavigate } from "react-router-dom";
+import ServiceResource from "./service/ServiceResource";
 
 function Login() {
   const refUsername = useRef();
@@ -31,11 +32,10 @@ function Login() {
 
     setLoading(true);
 
-    axios
-      .post("http://192.168.1.27:3000/login", obj_cred)
+    ServiceResource.post("login", obj_cred)
       .then((res) => {
         setLoading(false);
-        localStorage.setItem("jwt", res.data.token);
+        localStorage.setItem("jwt", res.token);
         navigate("/home");
       })
       .catch((e) => {
